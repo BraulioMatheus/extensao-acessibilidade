@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Laboratório de acessibilidade visual — AVA 0.4</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;max-width:900px;margin:26px auto;padding:0 18px;color:#142334;background:#fff}
+h1{margin-bottom:4px}section{margin:20px 0;padding:20px;border:1px solid #d1dae4;border-radius:12px}
+p{max-width:760px}.muted{color:#45566b}img{max-width:100%;height:auto;border:1px solid #cbd5e1}
+pre{background:#f1f5f9;border-radius:8px;padding:15px;min-height:150px;white-space:pre-wrap;overflow:auto;font:13px/1.5 monospace}
+button{border:1px solid #2563eb;border-radius:6px;padding:10px 14px;background:#fff;color:#1d4ed8;cursor:pointer}
+button:focus-visible{outline:3px solid orange}
+#originalSource{display:none} .hint{border-left:4px solid #2563eb;padding-left:15px}
+</style></head><body>
+<h1>Laboratório AVA — v0.4</h1>
+<p class="hint">Esta página cria um vídeo sintético de baixa intensidade e movimentos lentos. O vídeo-fonte fica oculto. <strong>A prévia aparece somente quando a extensão está ativa e a opção “Análise automática” está marcada.</strong></p>
+<p>Para testar: execute <code>python -m http.server 8000</code> na pasta raiz do projeto; abra esta página em <code>http://localhost:8000/tests/lab.html</code>; ative a extensão em Todos os sites ou Neste site e selecione Análise automática.</p>
+<section>
+<h2>1. Imagem estática para análise de padrões</h2>
+<img src="padrao.png" alt="Padrão estático de faixas cinzas de contraste moderado">
+<p class="muted">Esta imagem é do próprio servidor local e pode ser lida por Canvas. Em páginas externas, CORS pode impedir a leitura.</p>
+</section>
+<section>
+<h2>2. Vídeo sintético controlado</h2>
+<video id="originalSource" data-ava-process="video" autoplay muted playsinline aria-hidden="true"></video>
+<p class="muted">Quadro processado (aparecerá abaixo quando a análise estiver ativa):</p>
+<p class="muted">O processamento é feito após a disponibilização do quadro; esta prévia NÃO é um mecanismo de proteção clínica.</p>
+</section>
+<section>
+<h2>3. Últimos indicadores</h2>
+<pre id="ava-live-report" aria-live="polite">Ative a extensão e a análise automática para visualizar os valores.</pre>
+<button id="downloadData" type="button">Exportar amostras CSV</button>
+<p class="muted">Medições experimentais: luminância média, indicadores heurísticos de flashes e padrões, alfa temporal e custo aproximado por quadro.</p>
+</section>
+<section>
+<h2>4. Animação CSS lenta</h2>
+<div id="moving" style="width:150px;padding:12px;background:#dce9f8;border:1px solid #6484ae;animation:move 4s ease-in-out infinite alternate">Animação teste</div>
+<style>@keyframes move{from{transform:translateX(0)}to{transform:translateX(140px)}}</style>
+<p class="muted">Ative “Pausar animações CSS/JavaScript” para interromper o movimento.</p>
+</section>
+<p><a href="unit-tests.html">Executar os testes unitários</a></p>
+<script src="lab.js"></script></body></html>

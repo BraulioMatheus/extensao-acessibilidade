@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Acessibilidade Visual Adaptativa",
+  "version": "0.7.0",
+  "description": "Protótipo de análise de estímulos visuais com buffer, áudio e renderização de maior definição em vídeos locais.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_title": "Acessibilidade Visual Adaptativa",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "utils/settings.js",
+        "detection/luminance.js",
+        "detection/flash-detector.js",
+        "detection/contrast-detector.js",
+        "detection/motion-detector.js",
+        "smoothing/temporal-filter.js",
+        "smoothing/spatial-filter.js",
+        "smoothing/adaptive-controller.js",
+        "capture/image-reader.js",
+        "capture/video-reader.js",
+        "utils/metrics.js",
+        "capture/frame-buffer.js",
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

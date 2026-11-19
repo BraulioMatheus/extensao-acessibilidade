@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acessibilidade Visual</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Acessibilidade Visual</h1>
+    <p class="subtitulo">Versão experimental 0.7</p>
+
+    <section aria-labelledby="titulo-ativacao">
+      <h2 id="titulo-ativacao">Onde ativar?</h2>
+      <div class="grupo-botoes" role="group" aria-label="Modo de ativação">
+        <button type="button" data-mode="off">Desativada</button>
+        <button type="button" data-mode="site">Neste site</button>
+        <button type="button" data-mode="all">Todos os sites</button>
+      </div>
+      <p id="siteName" class="detalhe"></p>
+      <p id="scopeStatus" class="detalhe" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="titulo-perfis">
+      <h2 id="titulo-perfis">Meus perfis</h2>
+      <div class="grupo-botoes" role="group" aria-label="Escolher perfil">
+        <button type="button" data-profile="1">Perfil 1</button>
+        <button type="button" data-profile="2">Perfil 2</button>
+        <button type="button" data-profile="3">Perfil 3</button>
+      </div>
+      <p class="detalhe">Cada perfil salva seus próprios ajustes automaticamente. O perfil selecionado é usado nos sites ativados.</p>
+    </section>
+
+    <section aria-labelledby="titulo-ajustes">
+      <h2 id="titulo-ajustes">Ajustes do perfil</h2>
+      <div class="campo">
+        <label for="brightness">Brilho <output id="brightnessValue">100%</output></label>
+        <input id="brightness" type="range" min="70" max="110" value="100">
+      </div>
+      <div class="campo">
+        <label for="contrast">Contraste <output id="contrastValue">100%</output></label>
+        <input id="contrast" type="range" min="70" max="110" value="100">
+      </div>
+      <label class="opcao"><input id="pauseAnimations" type="checkbox"> Pausar animações CSS/JavaScript</label>
+      <label class="opcao"><input id="hideGifs" type="checkbox"> Ocultar imagens GIF</label>
+      <label class="opcao"><input id="pauseLoopVideos" type="checkbox"> Pausar vídeos em loop</label>
+    </section>
+
+
+    <section aria-labelledby="titulo-analise">
+      <h2 id="titulo-analise">Análise matemática (experimental)</h2>
+      <label class="opcao">
+        <input id="automaticAnalysis" type="checkbox">
+        Ativar análise automática de imagens acessíveis e vídeos de laboratório
+      </label>
+      <div class="campo">
+        <label for="smoothingMode">Modo de suavização</label>
+        <select id="smoothingMode">
+          <option value="off">Sem suavização matemática</option>
+          <option value="fixed">Filtro temporal fixo</option>
+          <option value="adaptive">Filtro temporal adaptativo</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="sensitivity">Sensibilidade <output id="sensitivityValue">60%</output></label>
+        <input id="sensitivity" type="range" min="0" max="100" value="60">
+      </div>
+      <div class="campo">
+        <label for="temporalStrength">Suavização temporal <output id="temporalStrengthValue">65%</output></label>
+        <input id="temporalStrength" type="range" min="0" max="100" value="65">
+      </div>
+      <div class="campo">
+        <label for="spatialStrength">Suavização espacial <output id="spatialStrengthValue">35%</output></label>
+        <input id="spatialStrength" type="range" min="0" max="100" value="35">
+      </div>
+      <div class="campo">
+        <label for="qualityMode">Qualidade do vídeo processado</label>
+        <select id="qualityMode">
+          <option value="performance">Desempenho (até 426×240)</option>
+          <option value="balanced">Equilibrado (até 854×480)</option>
+          <option value="quality">Qualidade (até 1280×720)</option>
+          <option value="original">Original (até 1920×1080; exige mais memória)</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="bufferDelayMs">Atraso do buffer (vídeo local) <output id="bufferDelayMsValue">400 ms</output></label>
+        <input id="bufferDelayMs" type="range" min="200" max="1000" step="100" value="400">
+      </div>
+      <p class="detalhe">O buffer é usado apenas na página de teste para vídeos locais. No laboratório 0.7, o áudio pode ser ativado manualmente e recebe o mesmo atraso configurado para o vídeo.</p>
+      <p class="detalhe">A análise de pixels respeita CORS; o vídeo com prévia processada funciona apenas em páginas de teste marcadas. Indicadores não são certificação WCAG.</p>
+    </section>
+
+    <p id="saveStatus" role="status" aria-live="polite">Carregando...</p>
+    <p class="aviso">Protótipo experimental: não garante prevenção de reações fotossensíveis.</p>
+  </main>
+</body>
+</html>

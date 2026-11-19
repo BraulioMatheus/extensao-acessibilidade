@@ -1,0 +1,7 @@
+Verificações automatizadas realizadas no ambiente de desenvolvimento:
+- Validação JSON do manifest: aprovado.
+- node --check dos 15 scripts JavaScript: aprovado.
+- Testes matemáticos executados via Node.js em contexto isolado: 11 aprovados, 0 falharam.
+- Conferência de existência dos 12 scripts declarados em content_scripts: aprovado.
+
+Limitação: não foi possível executar o teste visual em Chromium neste ambiente porque o navegador bloqueou navegação local/file com ERR_BLOCKED_BY_ADMINISTRATOR. Ainda é preciso confirmar no Chrome do usuário a instalação, a troca de perfis e a prévia do laboratório. O laboratório e os testes unitários foram incluídos para essa verificação.

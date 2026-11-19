@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Laboratório AVA 0.7 — vídeo com buffer</title>
+  <style>
+    :root {color-scheme:light}
+    * {box-sizing:border-box}
+    body {max-width:990px;margin:25px auto;padding:0 18px;font:16px/1.55 system-ui,Arial,sans-serif;color:#10253e;background:#fff}
+    h1{font-size:28px;margin-bottom:8px} h2{font-size:19px}
+    section{border:1px solid #bac7d5;border-radius:12px;padding:18px;margin:20px 0}
+    .hint{background:#eef6ff;border-left:4px solid #2860b0;padding:12px 15px;border-radius:4px}
+    .warning{background:#fff7e9;border-left:4px solid #a9690b;padding:12px 15px}
+    .muted{color:#526176;font-size:13px}
+    .controls{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}
+    button{cursor:pointer;font:inherit;padding:9px 14px;border:1px solid #1d5eba;border-radius:7px;background:#fff;color:#174b9f}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    button:focus-visible,input:focus-visible{outline:3px solid #ff9c00;outline-offset:3px}
+    #sourceVideo{position:absolute!important;left:-10000px!important;top:0!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+    #previewArea {min-height:190px;background:#eef2f6;border:1px dashed #94a3b8;border-radius:10px;padding:14px}
+    #previewArea canvas.ava-v5-preview{max-width:100%;width:min(100%,960px);height:auto;display:block;outline:1px solid #9db0c3}
+    pre{border-radius:8px;padding:16px;background:#eef2f6;min-height:130px;overflow:auto;white-space:pre-wrap;font:13px/1.55 Consolas,monospace}
+    input[type=file]{max-width:100%}
+  </style>
+</head>
+<body>
+  <h1>Laboratório AVA 0.7 — análise por buffer</h1>
+  <p class="hint">Selecione um vídeo do computador (MP4 ou WebM). O vídeo original é mantido fora da tela; a extensão apresenta apenas o Canvas com quadros analisados e processados após atraso configurado. O arquivo fica no seu navegador.</p>
+
+  <section>
+    <h2>1. Escolher vídeo</h2>
+    <label for="file">Arquivo local:</label>
+    <input id="file" type="file" accept="video/*,.mp4,.webm,.ogg,.m4v">
+    <p id="fileStatus" role="status">Nenhum arquivo selecionado.</p>
+    <div class="controls">
+      <button type="button" id="sample">Carregar exemplo sem áudio</button>
+      <button type="button" id="sampleAudio">Carregar exemplo com áudio</button>
+      <button type="button" id="sampleHD">Carregar exemplo HD (nitidez)</button>
+      <button type="button" id="play" disabled>Reproduzir</button>
+      <button type="button" id="pause" disabled>Pausar</button>
+      <button type="button" id="restart" disabled>Voltar ao início</button>
+    </div>
+    <div class="controls" aria-label="Controles de áudio sincronizado">
+      <button id="audioToggle" type="button" disabled>Ativar áudio sincronizado</button>
+      <label for="audioVolume">Volume: <output id="audioVolumeValue">65%</output></label>
+      <input id="audioVolume" type="range" min="0" max="100" value="65" aria-label="Volume do áudio processado">
+    </div>
+    <p id="audioStatus" class="muted" role="status" aria-live="polite">Áudio desligado. Ative após selecionar um vídeo com trilha sonora.</p>
+    <p class="muted">O som usa Web Audio com o mesmo atraso configurado para o Canvas; o vídeo original continua oculto. O exemplo antigo não possui trilha sonora; utilize o botão **Carregar exemplo com áudio** ou um arquivo próprio com áudio. Utilize um MP4/WebM local com áudio para verificar a sincronização. A precisão da sincronização depende do navegador.</p>
+  </section>
+
+  <section>
+    <h2>2. Prévia após análise + buffer</h2>
+    <p>Abra a extensão, escolha <strong>Neste site</strong> ou <strong>Todos os sites</strong> e marque <strong>Análise automática</strong>. Selecione <strong>Qualidade (1280×720)</strong> para comparar a nitidez ou <strong>Equilibrado</strong> se houver lentidão. Ajuste o <strong>Atraso do buffer</strong> para 400 ms inicialmente. Deixe brilho e contraste em 100%.</p>
+    <p class="muted">O espaço abaixo permanece vazio até que a extensão esteja ativa e tenha quadros prontos. O buffer introduz atraso intencional; não assegura que todos os quadros sejam capturados. O modo áudio é opcional e precisa ser habilitado por clique.</p>
+    <div id="previewArea">
+      <video id="sourceVideo" data-ava-process="buffered" muted playsinline preload="metadata" aria-hidden="true"></video>
+      <p id="ava-buffer-status" role="status" aria-live="polite">Aguardando análise da extensão e seleção do arquivo.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Métricas e resultados</h2>
+    <pre id="ava-live-report">Aguardando quadros processados...</pre>
+    <p id="sampleStatus" role="status">0 amostras exibidas.</p>
+    <button type="button" id="export">Exportar CSV</button>
+    <button type="button" id="clear">Limpar medições</button>
+    <p class="muted">O laboratório registra uma estimativa da luminância processada em baixa resolução; os valores de redução não são uma medição direta dos pixels finais da prévia. Não medem integralmente o cumprimento das WCAG nem a ausência de flashes localizados.</p>
+  </section>
+
+  <p class="warning"><strong>Limitação científica:</strong> a fonte é ocultada, mas os quadros são recebidos da decodificação normal do navegador, por amostragem. O resultado não substitui um pipeline WebCodecs com decodificação e apresentação totalmente controladas. Não use esta versão como proteção contra crises fotossensíveis.</p>
+  <script src="../capture/audio-sync.js"></script>
+  <script src="teste-video-buffer.js"></script>
+</body>
+</html>

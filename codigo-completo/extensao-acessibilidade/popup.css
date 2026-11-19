@@ -1,0 +1,45 @@
+* { box-sizing: border-box; }
+body {
+  width: 356px;
+  margin: 0;
+  padding: 16px;
+  background: #fff;
+  color: #202124;
+  font: 14px/1.45 Arial, sans-serif;
+}
+h1 { font-size: 20px; margin: 0 0 2px; }
+h2 { font-size: 14px; margin: 0 0 10px; }
+.subtitulo, .detalhe, .aviso { color: #596579; }
+.subtitulo { margin: 0 0 12px; }
+section { padding: 14px 0; border-top: 1px solid #dfe4eb; }
+.grupo-botoes { display: flex; gap: 5px; }
+.grupo-botoes button {
+  flex: 1;
+  min-height: 43px;
+  padding: 6px 4px;
+  border: 1px solid #aebbd0;
+  border-radius: 7px;
+  color: #173b69;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.grupo-botoes button.selected {
+  color: #fff;
+  background: #175bc4;
+  border-color: #175bc4;
+  font-weight: bold;
+}
+.grupo-botoes button:disabled { cursor: not-allowed; opacity: .45; }
+button:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+.detalhe { font-size: 12px; margin: 9px 0 0; }
+.campo { margin: 14px 0 18px; }
+.campo label { display: flex; justify-content: space-between; font-weight: bold; }
+.campo input { width: 100%; margin-top: 9px; accent-color: #175bc4; }
+.opcao { display: flex; align-items: flex-start; gap: 9px; margin: 13px 0; cursor: pointer; }
+.opcao input { margin-top: 3px; accent-color: #175bc4; }
+#saveStatus { margin: 0; padding: 10px; border-radius: 7px; background: #eff6ff; color: #17458a; font-size: 12px; }
+.aviso { font-size: 11px; margin: 12px 0 0; }
+
+.campo select { width:100%; margin-top:7px; padding:9px; border:1px solid #aebbd0; border-radius:6px; background:#fff; color:#202124; }
